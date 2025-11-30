@@ -1,36 +1,28 @@
 'use strict';
 
 // write code here
-const items = document.querySelectorAll('.tree > li');
+const items = document.querySelectorAll('li:has(ul)');
 
-items.forEach(li => {
-  const firstTextNode = li.childNodes[0];
+items.forEach((li) => {
+  const firstTextNode = [...li.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
   const span = document.createElement('span');
+
   span.textContent = firstTextNode.textContent;
   li.replaceChild(span, firstTextNode);
-
-  const nextItems = li.querySelectorAll('ul > li');
-
-nextItems.forEach(nextLi => {
-  if (nextLi.querySelector('ul')) {
-     const nestedFirstTextNode = nextLi.childNodes[0];
-  const nestedSpan = document.createElement('span');
-  nestedSpan.textContent = nestedFirstTextNode.textContent;
-  nextLi.replaceChild(nestedSpan, nestedFirstTextNode);
-  }
-
-});
-
 });
 
 const spans = document.querySelectorAll('span');
 
-spans.forEach(span => span.addEventListener('click', (e) => {
-  const li = e.target.closest('li');
-  const nestedUl = li.querySelector(':scope > ul');
-   if (!nestedUl) return;
-    nestedUl.style.display = nestedUl.style.display === 'none'? 'block': 'none';
+spans.forEach((span) => {
+  span.addEventListener('click', (e) => {
+    const li = e.target.closest('li');
+    const nestedUl = li.querySelector(':scope > ul');
 
-  }
-  )
-)
+    if (!nestedUl) {
+      return;
+    }
+
+    nestedUl.style.display =
+      nestedUl.style.display === 'none' ? 'block' : 'none';
+  });
+});
