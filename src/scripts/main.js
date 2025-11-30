@@ -4,7 +4,12 @@
 const items = document.querySelectorAll('li:has(ul)');
 
 items.forEach((li) => {
-  const firstTextNode = [...li.childNodes].find(n => n.nodeType === 3 && n.textContent.trim());
+  const firstTextNode = [...li.childNodes].find(
+    (n) => n.nodeType === 3 && n.textContent.trim(),
+  );
+   if (!firstTextNode) {
+    return;
+  }
   const span = document.createElement('span');
 
   span.textContent = firstTextNode.textContent;
